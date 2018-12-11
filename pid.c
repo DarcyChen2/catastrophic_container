@@ -14,10 +14,20 @@ int child_exec(void *stuff){
     printf("pid as seen in the child: %d\n", getpid());
 
     struct clone_args *args = (struct clone_args *)stuff;
-    if (mount("none", "/mytmp", "tmpfs", 0, "") != 0) {
-                fprintf(stderr, "failed to mount tmpfs %s\n",
-                        strerror(errno));
-                exit(-1);
+    // if (mount("none", "/mytmp", "tmpfs", 0, "") != 0) {
+    //             fprintf(stderr, "failed to mount tmpfs %s\n",
+    //                     strerror(errno));
+    //             exit(-1);
+    // }
+    if (umount2("/proc", 0) != 0) {
+            fprintf(stderr, "failed unmount /proc %s\n",
+                    strerror(errno));
+            exit(-1);
+    }
+    if (mount("proc", "/proc", "proc", 0, "") != 0) {
+            fprintf(stderr, "failed mount /proc %s\n",
+                    strerror(errno));
+            exit(-1);
     }
     if(execvp(args->argv[0], args->argv) != 0){
         fprintf(stderr, "failed to execvp argments %s\n", strerror(errno));
@@ -36,9 +46,9 @@ int main(int argc, char **argv){
 
     // int namespace = CLONE_NEWUTS|CLONE_NEWPID|CLONE_NEWIPC|CLONE_NEWNS|CLONE_NEWNET;
     // int namespace = CLONE_NEWNET;
-    // int namespace = CLONE_NEWPID;
+    int namespace = CLONE_NEWPID | CLONE_NEWNS; 
     // int namespace = CLONE_NEWIPC;
-    int namespace = CLONE_NEWNS;
+    //int namespace = CLONE_NEWNS;
 
     pid_t pid = clone(child_exec, child_stack + STACKSIZE, namespace|SIGCHLD, &args);
     // pid_t p = clone(child, malloc(4096)+4096, SIGCHLD|namespace, NULL);
