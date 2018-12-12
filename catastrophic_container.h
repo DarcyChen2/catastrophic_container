@@ -24,6 +24,7 @@
 
 #define STACKSIZE (1024*1024)
 
+#define HOSTNAME "catastrophic_container : < "
 
 // TODO: a user map?
 
@@ -33,7 +34,7 @@ typedef struct{
 
 typedef struct{
     char *directores;
-    char *host_name;
+    char *hostname;
     // Add anything
 } container_config_t;
 
@@ -55,7 +56,6 @@ typedef struct{
 container_t *container_new();
 
 
-
 /**
  * @brief delete a container
 */
@@ -65,7 +65,7 @@ void container_free(container_t *container);
 /**
  * @brief setup some directories for the container 
 */
-void set_up_temp_dir();
+void temp_dir_set_up();
 
 
 /**
@@ -74,6 +74,30 @@ void set_up_temp_dir();
 */
 int process_init();
 
+
+/**
+ * @brief set up room for a stack
+*/
+char *stack_set_up();
+
+
+/**
+ * @brief change the root directory for all process in a new mnt namespace, effectively
+ *  jailing the process inside the roofts.
+*/
+void pivot_root(const char *put_old, const char *new_root);
+
+
+/**
+ * @brief call mount
+*/
+int mount()
+
+
+/**
+ * @brief handle uid map
+*/
+int handle_uid_map(pid_t child_pid);
 
 /**
  * TODO:
