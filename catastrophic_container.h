@@ -48,7 +48,6 @@ typedef struct{
 
 
 /**
- * TODO:
  * @brief create a container with all the initialization
  * @return NULL on failed creation or new struct container_t on a succesfull
  * creation.
@@ -58,7 +57,6 @@ container_t *container_new();
 
 
 /**
- * TODO:
  * @brief delete a container
 */
 void container_free(container_t *container);
