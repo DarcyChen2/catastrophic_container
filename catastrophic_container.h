@@ -23,7 +23,7 @@
 
 #include "includes/utils.h"
 
-#define STACKSIZE (1024*1024)
+#define STACKSIZE 1048576
 
 #define HOSTNAME "catastrophic_container : < "
 #define ROOT_DIR "ROOT_FOR_CONTAINER"

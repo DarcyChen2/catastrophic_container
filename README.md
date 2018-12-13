@@ -5,21 +5,24 @@ One Paragraph of project description goes here
 # features
 
     Misc Features:
-        1. good user experience
+        √1. good user experience
     Process/Resource Management Features
-        1. Container moves into a new namespace (mount, user, PID, net)
-        2. init process that cleans up orphans
+        √1. Container moves into a new namespace (mount, user, PID, net)
+        *2. init process that cleans up orphans
+        *3. limit number of processes
+        *4. limit cpu resources
     Networking Features
         1. assign an IP to the container
-        2. limit number of processes
+
     Filesystem Features
         1. full read/write to the container
         2. full write access to the container without polluting the real filesystem
         3. container launches in a new root partition
-        4. /dev, /proc, /sys, have been remounted and are reporting information from the        current namespace
+        √4. /dev, /proc, /sys, have been remounted and are reporting information from the        current namespace
     User Features
         1. have a user in the container that is not root
-        2. have a user in the container that has sudo privileges
+        √2. have a user in the container that has sudo privileges
+        √3. Be able to create a new container without being root (i.e. use the set-uid bit)
         
 
 ## Getting Started
