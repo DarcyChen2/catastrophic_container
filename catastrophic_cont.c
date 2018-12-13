@@ -13,7 +13,6 @@
 
 #define DEFAULT_MODE 0777
 
-
 static char child_stack[STACKSIZE];
 
 
