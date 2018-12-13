@@ -13,6 +13,7 @@
 #include <signal.h>
 #include <string.h>
 #include <fcntl.h> 
+#include <linux/limits.h>
 #include <sys/stat.h>
 #include <sys/mount.h>
 #include <sys/types.h>
@@ -25,12 +26,17 @@
 #define STACKSIZE (1024*1024)
 
 #define HOSTNAME "catastrophic_container : < "
+#define ROOT_DIR "ROOT_FOR_CONTAINER"
 
 // TODO: a user map?
 
 typedef struct{
-    char stack[STACKSIZE];
-} clone_stack_t;
+    char **argv;
+} clone_args_t;
+
+// typedef struct{
+//     char stack[STACKSIZE];
+// } clone_stack_t;
 
 typedef struct{
     char *directores;
@@ -42,7 +48,7 @@ typedef struct{
     // Add anything
     // char *id;
     container_config_t *config_file;
-    clone_stack_t stack;
+    // clone_stack_t stack;
 } container_t;
 
 
@@ -62,10 +68,17 @@ container_t *container_new();
 void container_free(container_t *container);
 
 
+void process_num_limit();
+
+
+void file_create_and_write(char *filename, char *buf, size_t len);
+
+
 /**
  * @brief setup some directories for the container 
 */
-void temp_dir_set_up();
+// void temp_dir_set_up();
+void dir_set_up();
 
 
 /**
@@ -84,14 +97,23 @@ char *stack_set_up();
 /**
  * @brief change the root directory for all process in a new mnt namespace, effectively
  *  jailing the process inside the roofts.
+ * @param put_old - directory to move the current process root filesystem to
+ *        new_root - new root filesystem
 */
 void pivot_root(const char *put_old, const char *new_root);
 
 
 /**
- * @brief call mount
+ * @brief mount filesystem
 */
-int mount()
+void mount_fs();
+
+
+/**
+ * @brief umount filesystem
+ * @param target - the topmost filesystem this directory is mounted on will be removed
+*/
+void unmount_fs();
 
 
 /**
